@@ -27,29 +27,27 @@ export function initTouchControls(gameCanvas: GameCanvas, render: () => void): v
       font-family:"Trebuchet MS","Segoe UI",sans-serif; user-select:none;
       -webkit-user-select:none; display:none; }
     @media (pointer:coarse){ .touch-layer{ display:block; } }
-    .tbtn{ position:absolute; width:23vmin; height:23vmin; min-width:72px; min-height:72px;
-      max-width:126px; max-height:126px; border-radius:50%;
+    .tbtn{ position:absolute; width:22vmin; height:22vmin; min-width:70px; min-height:70px;
+      max-width:120px; max-height:120px; border-radius:50%;
       background:radial-gradient(circle at 34% 30%, rgba(80,84,96,.92), rgba(34,37,46,.92) 68%);
       border:2px solid rgba(255,255,255,.30);
       box-shadow:0 6px 18px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.28), inset 0 -3px 6px rgba(0,0,0,.35);
-      color:#f4f6fa; display:flex; align-items:center; justify-content:center;
-      font-size:clamp(26px,7.5vmin,42px); pointer-events:auto; touch-action:none;
+      color:#f4f6fa; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.1em;
+      font-size:clamp(22px,6vmin,34px); line-height:1; pointer-events:auto; touch-action:none;
       transition:transform .06s ease, background .06s; }
     .tbtn.pressed{ transform:scale(.92);
       background:radial-gradient(circle at 34% 30%, rgba(90,160,255,.95), rgba(28,80,170,.95) 70%);
       border-color:rgba(190,225,255,.7);
       box-shadow:0 3px 10px rgba(30,90,200,.5), inset 0 2px 3px rgba(255,255,255,.35); }
-    .tbtn span{ position:absolute; bottom:-2.0em; left:50%; transform:translateX(-50%);
-      font-size:clamp(10px,2.6vmin,13px); font-weight:bold; letter-spacing:1.5px;
-      color:rgba(25,20,8,.78); text-shadow:0 1px 0 rgba(255,255,255,.5); }
-    /* левая рука — баланс дугой (ВПЕРЁД чуть выше, под естественный ход большого пальца) */
-    .t-lean-l{ left:4vmin;  bottom:5vmin; }
-    .t-lean-r{ left:29vmin; bottom:9vmin; }
-    /* правая рука — тормоз в углу, газ над ним дугой к центру */
-    .t-brake{  right:4vmin; bottom:5vmin; }
-    .t-gas{    right:6vmin; bottom:31vmin; }
+    .tbtn span{ font-size:clamp(9px,2.2vmin,12px); font-weight:bold; letter-spacing:1px;
+      color:rgba(244,246,250,.92); text-shadow:0 1px 2px rgba(0,0,0,.5); }
+    /* РОВНАЯ раскладка: слева пара баланса в один ряд, справа газ над тормозом по одной вертикали */
+    .t-lean-l{ left:5vmin;  bottom:7vmin; }
+    .t-lean-r{ left:30vmin; bottom:7vmin; }
+    .t-brake{  right:5vmin; bottom:7vmin; }
+    .t-gas{    right:5vmin; bottom:34vmin; }
     .t-ok{ left:50%; transform:translateX(-50%); bottom:7vmin;
-      width:26vmin; height:26vmin; max-width:140px; max-height:140px;
+      width:24vmin; height:24vmin; max-width:132px; max-height:132px;
       font-size:clamp(20px,5.5vmin,30px); font-weight:bold; letter-spacing:1px;
       background:radial-gradient(circle at 34% 30%, rgba(95,175,90,.95), rgba(35,105,45,.95) 70%);
       border-color:rgba(200,255,200,.45); }
@@ -59,11 +57,15 @@ export function initTouchControls(gameCanvas: GameCanvas, render: () => void): v
       border-radius:26%; font-size:clamp(15px,3.8vmin,20px); }
     .touch-layer.in-game .t-ok{ display:none; }
     .touch-layer:not(.in-game) .t-pause{ display:none; }
+    /* в меню баланс не нужен (навигация газом/тормозом), освобождаем центр под OK */
+    .touch-layer:not(.in-game) .t-lean-l,
+    .touch-layer:not(.in-game) .t-lean-r{ display:none; }
     /* низкий горизонтальный экран — компактнее, чтобы не перекрывать трассу */
     @media (max-height:480px){
-      .tbtn{ width:19vmin; height:19vmin; min-width:64px; min-height:64px; }
-      .t-gas{ bottom:27vmin; }
-      .t-ok{ width:22vmin; height:22vmin; }
+      .tbtn{ width:17vmin; height:17vmin; min-width:60px; min-height:60px; }
+      .t-lean-r{ left:26vmin; }
+      .t-gas{ bottom:29vmin; }
+      .t-ok{ width:19vmin; height:19vmin; }
     }
   `
   document.head.appendChild(style)
