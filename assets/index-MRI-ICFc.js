@@ -10,29 +10,27 @@
       font-family:"Trebuchet MS","Segoe UI",sans-serif; user-select:none;
       -webkit-user-select:none; display:none; }
     @media (pointer:coarse){ .touch-layer{ display:block; } }
-    .tbtn{ position:absolute; width:23vmin; height:23vmin; min-width:72px; min-height:72px;
-      max-width:126px; max-height:126px; border-radius:50%;
+    .tbtn{ position:absolute; width:22vmin; height:22vmin; min-width:70px; min-height:70px;
+      max-width:120px; max-height:120px; border-radius:50%;
       background:radial-gradient(circle at 34% 30%, rgba(80,84,96,.92), rgba(34,37,46,.92) 68%);
       border:2px solid rgba(255,255,255,.30);
       box-shadow:0 6px 18px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.28), inset 0 -3px 6px rgba(0,0,0,.35);
-      color:#f4f6fa; display:flex; flex-direction:column; align-items:center; justify-content:center;
-      font-size:clamp(24px,7vmin,38px); line-height:1; pointer-events:auto; touch-action:none;
+      color:#f4f6fa; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.1em;
+      font-size:clamp(22px,6vmin,34px); line-height:1; pointer-events:auto; touch-action:none;
       transition:transform .06s ease, background .06s; }
     .tbtn.pressed{ transform:scale(.92);
       background:radial-gradient(circle at 34% 30%, rgba(90,160,255,.95), rgba(28,80,170,.95) 70%);
       border-color:rgba(190,225,255,.7);
       box-shadow:0 3px 10px rgba(30,90,200,.5), inset 0 2px 3px rgba(255,255,255,.35); }
-    .tbtn span{ margin-top:3px; font-size:clamp(9px,2.3vmin,12px); font-weight:bold;
-      letter-spacing:1.2px; color:rgba(255,255,255,.72); }
-    /* левая рука — баланс дугой (ВПЕРЁД чуть выше, под естественный ход большого пальца) */
-    .t-lean-l{ left:4vmin;  bottom:5vmin; }
-    .t-lean-r{ left:29vmin; bottom:9vmin; }
-    /* правая рука — тормоз в углу, газ над ним дугой к центру */
-    .t-brake{  right:4vmin; bottom:5vmin; }
-    .t-gas{    right:6vmin; bottom:31vmin; }
-    /* OK — по центру НАД нижним рядом (не пересекается с наклонами/тормозом на любом экране) */
-    .t-ok{ left:50%; transform:translateX(-50%); bottom:36vmin;
-      width:24vmin; height:24vmin; max-width:130px; max-height:130px;
+    .tbtn span{ font-size:clamp(9px,2.2vmin,12px); font-weight:bold; letter-spacing:1px;
+      color:rgba(244,246,250,.92); text-shadow:0 1px 2px rgba(0,0,0,.5); }
+    /* РОВНАЯ раскладка: слева пара баланса в один ряд, справа газ над тормозом по одной вертикали */
+    .t-lean-l{ left:5vmin;  bottom:7vmin; }
+    .t-lean-r{ left:30vmin; bottom:7vmin; }
+    .t-brake{  right:5vmin; bottom:7vmin; }
+    .t-gas{    right:5vmin; bottom:34vmin; }
+    .t-ok{ left:50%; transform:translateX(-50%); bottom:7vmin;
+      width:24vmin; height:24vmin; max-width:132px; max-height:132px;
       font-size:clamp(20px,5.5vmin,30px); font-weight:bold; letter-spacing:1px;
       background:radial-gradient(circle at 34% 30%, rgba(95,175,90,.95), rgba(35,105,45,.95) 70%);
       border-color:rgba(200,255,200,.45); }
@@ -42,10 +40,14 @@
       border-radius:26%; font-size:clamp(15px,3.8vmin,20px); }
     .touch-layer.in-game .t-ok{ display:none; }
     .touch-layer:not(.in-game) .t-pause{ display:none; }
+    /* в меню баланс не нужен (навигация газом/тормозом), освобождаем центр под OK */
+    .touch-layer:not(.in-game) .t-lean-l,
+    .touch-layer:not(.in-game) .t-lean-r{ display:none; }
     /* низкий горизонтальный экран — компактнее, чтобы не перекрывать трассу */
     @media (max-height:480px){
-      .tbtn{ width:19vmin; height:19vmin; min-width:64px; min-height:64px; }
-      .t-gas{ bottom:27vmin; }
-      .t-ok{ width:20vmin; height:20vmin; bottom:32vmin; }
+      .tbtn{ width:17vmin; height:17vmin; min-width:60px; min-height:60px; }
+      .t-lean-r{ left:26vmin; }
+      .t-gas{ bottom:29vmin; }
+      .t-ok{ width:19vmin; height:19vmin; }
     }
   `,document.head.appendChild(i);const s=(r,o)=>{if(r.classList.add("pressed"),o==="esc"){T.isInGameMenu?f.handleBackAction():f.hasMenuButton()&&f.openPauseMenu(),t();return}f.keyPressed(Number(o)),t()},n=(r,o)=>{r.classList.remove("pressed"),o!=="esc"&&f.keyReleased(Number(o))};for(const r of e.querySelectorAll(".tbtn")){const o=r.dataset.k??"",l=d=>{d.preventDefault(),s(r,o)},c=d=>{d.preventDefault(),n(r,o)};r.addEventListener("touchstart",l,{passive:!1}),r.addEventListener("touchend",c,{passive:!1}),r.addEventListener("touchcancel",c,{passive:!1}),r.addEventListener("mousedown",l),r.addEventListener("mouseup",c),r.addEventListener("mouseleave",c)}window.setInterval(()=>{e.classList.toggle("in-game",!T.isInGameMenu)},150)}const wt="/gravity-defied-web/assets/levels-BRYBkAPq.mrg";async function Tt(f){f.className="app-root";const t=document.createElement("canvas");t.className="game-canvas",f.replaceChildren(t);const e=new T;T.isGameVisible=!0;const i=await p.create(wt),s=new h(i),n=await S.create(t,e),r=new Ct(e);e.levelLoader=i,e.gamePhysics=s,e.gameCanvas=n,e.menuManager=r,n.init(s);for(let m=1;m<=7;++m)r.initPart(m);n.setMenuManager(r);const o={loadedSpriteFlags:await n.loadSprites(r.getLoadedSpriteFlags()),lastOuterStepMs:performance.now(),outerAccumulatorMs:0,lastMenuStepMs:performance.now(),isGoalLoopActive:!1,goalLoopEndMs:0,lastGoalLoopStepMs:0,forcedRestartMs:0,wasInGameMenu:!1};s.applyLoadedSpriteFlags(o.loadedSpriteFlags),r.applyLoadedSpriteFlags(o.loadedSpriteFlags),s.setMode(1);function l(){const m=f.getBoundingClientRect();let M=Math.floor(m.width),k=Math.floor(m.height);(M<=0||k<=0)&&(M=window.innerWidth,k=window.innerHeight),window.visualViewport!==null&&(M=Math.max(M,Math.floor(window.visualViewport.width)),k=Math.max(k,Math.floor(window.visualViewport.height))),n.resize(M,k),s.setMinimalScreenWH(M<k?M:k)}function c(){n.paint(n.getGraphics())}n.setRepaintHandler(c);function d(m){s.resetSmth(!0),e.timeMs=0,e.gameTimeMs=0,e.crashRestartDeadlineMs=0,e.isTimerRunning=!1,o.goalLoopEndMs=0,o.isGoalLoopActive=!1,o.lastGoalLoopStepMs=0,o.forcedRestartMs=0,m&&n.scheduleGameTimerTask(i.getName(r.getCurrentLevel(),r.getCurrentTrack()),3e3),n.resetInputState()}function g(){r.setFinishTime(e.gameTimeMs/10),r.showMenuScreen(2)}function F(m){o.goalLoopEndMs=m+1e3,o.isGoalLoopActive=!0,o.lastGoalLoopStepMs=m,n.scheduleGameTimerTask(s.isTrackFinished?"Finished":"Wheelie!",1e3)}function L(){const m=r.getLoadedSpriteFlags();s.getLoadedSpriteFlags()!==m&&n.loadSprites(m).then(M=>{s.applyLoadedSpriteFlags(M),r.applyLoadedSpriteFlags(M),o.loadedSpriteFlags=M})}function I(m){if(L(),o.forcedRestartMs!==0){m>=o.forcedRestartMs&&d(!0);return}for(let M=e.numPhysicsLoops;M>0;--M){e.isTimerRunning&&(e.gameTimeMs+=20),e.timeMs===0&&(e.timeMs=Date.now());const k=s.updatePhysics();if(k===3&&e.crashRestartDeadlineMs===0&&(e.crashRestartDeadlineMs=Date.now()+3e3,n.scheduleGameTimerTask("Crashed",3e3),n.repaint(),n.serviceRepaints()),e.crashRestartDeadlineMs!==0&&e.crashRestartDeadlineMs<Date.now()){d(!0);return}if(k===5){n.scheduleGameTimerTask("Crashed",3e3),n.repaint(),n.serviceRepaints();let V=1e3;e.crashRestartDeadlineMs>0&&(V=Math.min(e.crashRestartDeadlineMs-Date.now(),1e3)),V<0&&(V=0),o.forcedRestartMs=m+V;return}if(k===4)e.timeMs=0,e.gameTimeMs=0;else if(k===1||k===2){k===2&&(e.gameTimeMs-=10),F(m),e.isTimerRunning=!0;return}e.isTimerRunning=k!==4}s.syncRenderStateFromSimulation()}function b(m){if(o.isGoalLoopActive){if(m>=o.goalLoopEndMs){o.isGoalLoopActive=!1,g();return}for(;m-o.lastGoalLoopStepMs>=30;){for(let M=e.numPhysicsLoops;M>0;--M)if(s.updatePhysics()===5){o.isGoalLoopActive=!1,o.goalLoopEndMs=m,g();return}s.syncRenderStateFromSimulation(),o.lastGoalLoopStepMs+=30}}}function y(m){if(T.isInGameMenu)for(;m-o.lastMenuStepMs>=50;){if(s.isGenerateInputAI){const M=s.updatePhysics();M!==0&&M!==4&&s.resetSmth(!0),s.syncRenderStateFromSimulation()}if(o.lastMenuStepMs+=50,!s.isGenerateInputAI)break}}l(),n.requestRepaint(0),d(!1),r.showMenuScreen(0);function R(m){if(T.isInGameMenu&&!o.wasInGameMenu&&(o.lastMenuStepMs=m),T.isInGameMenu&&!o.wasInGameMenu&&r.isOpeningPauseMenu&&r.showMenuScreen(1),T.isInGameMenu){y(m),c(),o.wasInGameMenu=!0,requestAnimationFrame(R);return}if(o.wasInGameMenu&&(o.lastOuterStepMs=m,o.outerAccumulatorMs=0),o.wasInGameMenu=!1,r.consumeRestartRequested()&&d(!0),o.isGoalLoopActive){b(m),c(),requestAnimationFrame(R);return}for(o.outerAccumulatorMs+=m-o.lastOuterStepMs,o.lastOuterStepMs=m;o.outerAccumulatorMs>=30&&(I(m),o.outerAccumulatorMs-=30,!(T.isInGameMenu||o.isGoalLoopActive)););r.consumeRestartRequested()&&d(!0),c(),requestAnimationFrame(R)}const C=()=>{l(),c()};new ResizeObserver(()=>{C()}).observe(f),window.addEventListener("resize",C),window.visualViewport?.addEventListener("resize",C),window.addEventListener("keydown",m=>{let M=!1;const k=ht(m.code);m.code==="Escape"&&(T.isInGameMenu?(n.handleBackAction(),M=!0):n.hasMenuButton()&&(n.openPauseMenu(),M=!0)),k!==null&&(n.keyPressed(k),M=!0),M&&(m.preventDefault(),c())}),window.addEventListener("keyup",m=>{const M=ht(m.code);M!==null&&(n.keyReleased(M),m.preventDefault())}),It(n,c),requestAnimationFrame(R)}function ht(f){switch(f){case"ArrowUp":return 1;case"ArrowLeft":return 2;case"ArrowRight":return 5;case"ArrowDown":return 6;case"Space":case"Enter":case"NumpadEnter":return 8;case"Digit0":return 48;case"Digit1":return 49;case"Digit2":return 50;case"Digit3":return 51;case"Digit4":return 52;case"Digit5":return 53;case"Digit6":return 54;case"Digit7":return 55;case"Digit8":return 56;case"Digit9":return 57;default:return null}}const st=document.getElementById("root");if(!(st instanceof HTMLDivElement))throw new Error("Missing #root container");Tt(st).catch(f=>{const t=document.createElement("pre");t.className="error-view",t.textContent=f instanceof Error?f.stack??f.message:String(f),st.replaceChildren(t)});
